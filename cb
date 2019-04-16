@@ -20,3 +20,60 @@ expensive = heapq.nlargest(3, portfolio, key=lambda s: s['price'])
 
 3查找几个数，个数与列表元素个数相近
 sorted(nums)[:n]/sorted(nums)[n:]
+
+
+defaultdict(default_factory)
+阐释：defaultdict（）其实是一个函数，与dict()相似，就是生成词典，但是当使用的key是不存在时，dict（）会报错，但defaultdict（）不会，他会将default_factory
+作为一个参数，返回到词典里（通常default_factory都是string，int，set，list）
+例如
+ d2=defaultdict(list)
+>>> print(d2['a'])
+[]
+ d1=dict()
+>>> print(d1['a'])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'a'
+
+如果 default_factory 是 None ， 它就升起一个 KeyError 并将 key 作为参数。
+如果 default_factory 不为 None ， 它就会会被调用，不带参数，为 key 提供一个默认值， 这个值和 key 作为一个对被插入到字典中，并返回。
+
+setdefault（）
+dict.setdefault(key, default=None)#key是查找的键值，当键不存在时，返回default
+
+使用defaultdict（）来建立一个可以映射多个值的词典
+首先用setdefault（）来理解 
+s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]
+d={}#创建空词典
+>>> for k,v in s:
+...     d.setdefault(k,[]).append(v)#在d空词典里，当查找不到key时，生成一个空列表，list.append() 操作添加值到这个新的列表里。当键再次被存取时，就
+正常操作， list.append() 添加另一个值到列表中
+>>> sorted(d.items())#d.items()是遍历d词典的意思，sorted就是排序啦
+[('blue', [2, 4, 4]), ('red', [1, 3, 1])]
+
+使用defaultdict（）效率更高
+1，factory是list：
+s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]
+d=defaultdict（list）
+for key,value in s:
+    d[key].append(value)#d[]我把它理解为索引，d[key]意思就是key对应的值
+sorted(d.items())
+[('blue', [2, 4, 4]), ('red', [1, 3, 1])]
+
+
+2，factory为int时，发挥计数作用
+ n='mississippi'
+>>> d=defaultdict(int)
+>>> for key in n:
+...     d[key]+=1
+>>> sorted(d.items())
+[('i', 4), ('m', 1), ('p', 2), ('s', 4)]
+
+3，factory为set时，生成集合词典
+ s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]
+>>> d = defaultdict(set)
+>>> for k, v in s:
+...     d[k].add(v)#唯二的不同就是append改为add
+...
+>>> sorted(d.items())
+[('blue', {2, 4}), ('red', {1, 3})]
