@@ -82,7 +82,8 @@ sorted(d.items())
 
 OrderedDict（）
 orderdict与dict（）一样也是一种形成词典方的法，只不过dict形成的词典如果不是按相同顺序输入，也会被视为不同的
-他除了有keys（），values()，copy(),clear(),items()，pop(),setdefault()等dict通用的方法，还有popitem（），move_to_end()的独有方法
+他除了有keys（），values()，copy(),clear(),items()（字典的 items() 方法返回一个包含 (键，值) 对的元素视图对象。 这个对象同样也支持集合操作，并且
+可以被用来查找两个字典有哪些相同的键值对。），pop(),setdefault()等dict通用的方法，还有popitem（），move_to_end()的独有方法
 例如说
 当使用dict（）的时候，即使最终的输入内容相同，输入时顺序不同，一样被视为相同
  d2={} d2['a']='A' d2['b']='B' d2['c']='C'
@@ -116,3 +117,70 @@ d=OrderedDict([('k2', 'v2'), ('k3', 'v3'), ('k1', 'v1')])
 
 >>> d.move_to_end('c',last=False)#当last=False时，把key组合移动到词典最前端
 >>> d--> OrderedDict([('c', 'C'), ('b', 'B'), ('a', 'A')])
+
+
+
+collections.Counter()
+此方法将hashable对象里的元素出现次数映射到词典上
+eg：
+words = [
+    'look', 'into', 'my', 'eyes', 'look', 'into', 'my', 'eyes',
+    'the', 'eyes', 'the', 'eyes', 'the', 'eyes', 'not', 'around', 'the',
+    'eyes', "don't", 'look', 'around', 'the', 'eyes', 'look', 'into',
+    'my', 'eyes', "you're", 'under'
+]
+
+ word_count['not']-->1
+ 
+ most_common(n) 则会返回最常出现的n个元素，及其出现的次数
+top_three=word_count.most_common(3)  -->[('eyes', 8), ('the', 5), ('look', 4)]
+ 
+ 
+ Counter返回的值可以直接用于计算
+ 如
+  a=Counter([
+...     'as','sd','df','as','as','sd'])
+>>> b=Counter([
+...     'as','sd','as'])
+>>> a
+Counter({'as': 3, 'sd': 2, 'df': 1})
+>>> b
+Counter({'as': 2, 'sd': 1})
+>>>
+>>> c=a+b#即使对不齐也没关系
+>>> c
+Counter({'as': 5, 'sd': 3, 'df': 1})
+
+
+Operator.itemgetter()
+这个相当于指定某的用法
+a=['a','b','c','d','e','f']
+slay=operator.itemgetter(1)#itemgetter不是为了得到某个值，而是建立函数，只有函数作用在对象上时，才可以得到结果
+>>> slay=itemgetter(1)
+>>> slay(a)-->'b'
+
+
+他可以在key中被使用
+例如排序中：
+rows = [
+    {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003},
+    {'fname': 'David', 'lname': 'Beazley', 'uid': 1002},
+    {'fname': 'John', 'lname': 'Cleese', 'uid': 1001},
+    {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}
+sort_by_fname=sorted(rows,key=itemgetter('fname')) = rows_by_fname = sorted(rows, key=lambda r: r['fname'])
+-->
+[{'fname': 'Big', 'uid': 1004, 'lname': 'Jones'},
+{'fname': 'Brian', 'uid': 1003, 'lname': 'Jones'},
+{'fname': 'David', 'uid': 1002, 'lname': 'Beazley'},
+{'fname': 'John', 'uid': 1001, 'lname': 'Cleese'}]
+
+itemgetter也支持多个key：
+sort_by_flname=sorted(rows,key=itemgetter('fname','lname')) = rows_by_lfname = sorted(rows, key=lambda r: (r['lname'],r['fname']))
+-->
+[{'fname': 'David', 'uid': 1002, 'lname': 'Beazley'},
+{'fname': 'John', 'uid': 1001, 'lname': 'Cleese'},
+{'fname': 'Big', 'uid': 1004, 'lname': 'Jones'},
+{'fname': 'Brian', 'uid': 1003, 'lname': 'Jones'}]
+
+
+
