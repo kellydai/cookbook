@@ -183,7 +183,7 @@ sort_by_flname=sorted(rows,key=itemgetter('fname','lname')) = rows_by_lfname = s
 {'fname': 'Brian', 'uid': 1003, 'lname': 'Jones'}]
 
 
-attrgetter
+attrgetter#用法与作用于词典的itemgetter相似，用于不原生支持比较的·对象
 from operator import attrgetter
 class User:
 ...     def __init__(self, user_id):
@@ -195,3 +195,22 @@ class User:
 >>> users  -->[User(23), User(3), User(12)]
 sorted(users,key=attrgetter('user_id')) --> [User(3),User(12),User(23)]
 
+ class Student:
+...     def __init__(self,name,grade,level):
+...         self.name=name
+...         self.grade=grade
+...         self.level=level
+...     def __repr__(self):
+...         return repr((self.name,self.grade,self.level))
+...
+>>>
+>>> students=[
+...     Student('lily',98,'a'),
+...     Student('jane',66,'c'),
+...     Student('bob',82,'b')
+... ]
+>>> from operator import attrgetter
+>>> sorted(students,key=attrgetter('grade'))
+[('jane', 66, 'c'), ('bob', 82, 'b'), ('lily', 98, 'a')]
+>>> sorted(students,key=attrgetter('name','grade'))
+[('bob', 82, 'b'), ('jane', 66, 'c'), ('lily', 98, 'a')]
