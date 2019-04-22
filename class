@@ -1,0 +1,71 @@
+类对象支持两种操作：属性引用和实例化
+属性引用标准语法：obj.name
+class MyClass:
+    """A simple example class"""
+    i = 12345
+
+    def f(self):
+        return 'hello world'
+MyClass.i -->12345
+MyClass.f -->'hello world'
+这里MyClass.i 与 MyClass.f都是属性引用
+
+
+实例化是使用函数表达
+类的 实例化 是使用函数表示法。 可以相像类对象就是会返回一个新的类实例的不带参数的函数。 举例来说（假设使用上述的类）:
+x = MyClass()#这里是创建类的新实例，并将其分配给局部变量x
+实例化操作会创建一个空对象，然后通常会使用初始化，为此类定义包含一个方法：__init__（记住是两条下划线）
+eg
+class Complex:
+...     def __init__(self, realpart, imagpart):
+...         self.r = realpart
+...         self.i = imagpart
+...
+>>> x = Complex(3.0, -4.5)
+>>> x.r, x.i
+(3.0, -4.5)
+
+
+实例对象理解的唯一操作是属性引用，有两种有效的属性名称，数据属性和方法
+方法是从属于对象的函数，例如remove，insert之于列表
+x.f就是方法因为MyClass.f是一个函数，x.i不是方法，因为MyClass.i不是一个函数，而x.f是方法对象，MyClass.f是函数对象
+
+
+实例变量用于每个实例的唯一数据，而类变量用于类的所有实例共享的属性和方法:
+
+ class dog:
+...     kind='canine'#类变量
+...     def __init__(self,name):#实例变量
+...         self.name=name
+>>> d=dog('fido')
+>>> e=dog('buddy')
+>>> d.kind -->'canine'
+>>> e.kind -->'canine'
+>>> d.name -->'fido'
+>>> e.name -->'buddy'
+
+生成器#生成器的好处是他会自动创建iter（）和next（）。所以会更加简洁
+ def reverse(data):
+...     for index in range(len(data)-1,-1,-1):
+...         yield data[index]
+>>> for char in reverse('golf'):
+...     print(char)
+flog
+迭代器
+ class reverse:
+...     def __init__(self,data):
+...         self.data=data
+...         self.index=len(data)
+...     def __iter__(self):
+...         return self
+...     def __next__(self):
+...         if self.index==0:
+...             raise StopIteration
+...         self.index=self.index-1
+...         return self.data[self.index]
+>>> rev=reverse('golf')
+>>> iter(rev)
+<__main__.reverse object at 0x00000222B8CD5550>
+>>> for char in rev:
+...     print(char)
+flog
