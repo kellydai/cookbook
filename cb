@@ -333,3 +333,54 @@ tech_names = { 'AAPL', 'IBM', 'HPQ', 'MSFT' }
 p2={key:prices[key] for key in prices.keys() if key in tech_name}#这里用keys（）提取所有key
 >>> p2
 {'ACME': 45.23, 'HPQ': 37.2}
+
+映射名称到序列元素
+使用普通元组，极度依赖位置
+def cost2(Sth):
+...     total=0.0
+...     for sth in Sth:
+...         total+=sth[1]*sth[2]
+...     return total
+...
+>>> print(cost2(Sth))
+68.0
+
+使用命名元组
+fruit=namedtuple('fruit',['name','prices','number'])
+>>> def cost(Sth):
+...     total=0.0
+...     for sth in Sth:
+...         s=fruit(*sth)
+...         total+=s.prices*s.number
+...     return total
+...
+>>> Sth=[
+...     ('apple',12,3),
+...     ('orange',6,2),
+...     ('lemon',5,4)
+... ]
+>>> print(cost(Sth))
+68.0
+
+缺点：命名元组不可更改
+ s=fruit('pineapple',12,4)
+>>> s
+fruit(name='pineapple', prices=12, number=4)
+>>> s.prices=3
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+
+这时候可以用_replace（）,他会创建一个新的元组
+s=s._replace(prices=3)
+>>> s
+fruit(name='pineapple', prices=3, number=4)
+
+同时可以用_replace()填充数据
+Stock=namedtuple('Stock',['name','shares','price','date','time'])
+stock=Stock('',0,0,None,None)
+def dict_to_stock(s)：
+    return stock._replace(**s)
+A={'name':'ad','shares':23,'date':2019}
+print(dict_to_stock(A))
+Stock(name='ad', shares=23, price=0, date=2019, time=None)
