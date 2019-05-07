@@ -1,0 +1,30 @@
+使用re.split分隔字符串
+ps：str.split使用的分隔只有一个参数
+
+g="a@qw!ad,"
+>>> re.split(r'[@!,]',g)
+['a', 'qw', 'ad', '']
+>>> re.split(r'(@!,)',g)#复原
+['a@qw!ad,']
+>>> re.split(r'(@|!|,)',g)#连同分隔符被打印出来
+['a', '@', 'qw', '!', 'ad', ',', '']
+
+利用str.endswith str.startswith识别开头结尾配对的字符串
+eg
+file='ajhd:http'
+>>> file.endswith('http') -->True
+>>> file.startswith('http') -->False
+配合切片使用
+filename = 'spam.txt'
+>>> filename[-4:] == '.txt'  --> True
+>>> url = 'http://www.python.org'
+>>> url[:5] == 'http:' or url[:6] == 'https:' or url[:4] == 'ftp:'  --> True
+
+因为对象只能是str。所以遇到列表的时候就只能先调用for in
+files=['asd.foo','afg.txt','fgh.doc']
+[name for name in files if name.endswith(('foo','txt'))] --> ['asd.foo', 'afg.txt']
+当匹配关键词不是单个字符串时，它必须是tuple形式，所以假如对象是list，set，要先使用tuple()
+match=['doc','txt']
+>>> matches=tuple(match)
+>>> [name for name in files if name.endswith(matches)]  --> ['afg.txt', 'fgh.doc']
+
