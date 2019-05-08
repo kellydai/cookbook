@@ -1,3 +1,4 @@
+2.1
 使用re.split分隔字符串
 ps：str.split使用的分隔只有一个参数
 
@@ -9,6 +10,8 @@ g="a@qw!ad,"
 >>> re.split(r'(@|!|,)',g)#连同分隔符被打印出来
 ['a', '@', 'qw', '!', 'ad', ',', '']
 
+
+2.2
 利用str.endswith str.startswith识别开头结尾配对的字符串
 eg
 file='ajhd:http'
@@ -27,4 +30,15 @@ files=['asd.foo','afg.txt','fgh.doc']
 match=['doc','txt']
 >>> matches=tuple(match)
 >>> [name for name in files if name.endswith(matches)]  --> ['afg.txt', 'fgh.doc']
+
+2.3
+使用fnmatch模块匹配字符串（fnmatch功能介乎于一般字符串匹配与正则表达式之间）
+fnmatch：
+names=["foo.py","lis.py","sdd.do","lie.py"]
+>>> from fnmatch import fnmatch,fnmatchcase
+>>> [name for name in names if fnmatch(name,'*.py')]（在这里如果*换成\s*就是正则表达式了）  --> ['foo.py', 'lis.py', 'lie.py']
+>>> [name for name in names if fnmatch(name,'li*.py')]  -->  ['lis.py', 'lie.py']
+>>> fnmatch('asd.txt','*.TXT')  --> True
+>>> fnmatchcase('asd.txt','*.TXT')  -->False#当对大小写要求严格时，就需要换成fnamtchcase（）
+
 
