@@ -42,3 +42,52 @@ names=["foo.py","lis.py","sdd.do","lie.py"]
 >>> fnmatchcase('asd.txt','*.TXT')  -->False#当对大小写要求严格时，就需要换成fnamtchcase（）
 
 
+2.16
+textwrap对字串符格式化
+textwrap(text,width)
+
+text = """asdsafsdkaf
+... sadfsadfasd
+... sadfasdfsad
+... """
+
+1.fill
+print(textwrap.fill(text,width=10))#text按每行长度10显示
+asdsafsdka
+f sadfsadf
+asd sadfas
+dfsad
+
+2.shorten
+print(textwrap.fill(text,width))#text只显示长度为width，剩下的用。。。替代
+print(textwrap.shorten(text,width=20))
+asdsafsdkaf [...]
+
+3.indent
+print(textwrap.indent(text,prefix=" "))
+每行加入前缀
+print(textwrap.indent(text,prefix="."))
+.asdsafsdkaf
+.sadfsadfasd
+.sadfasdfsad
+
+4.dedent
+print(textwrap.dedent(text))
+首行去除缩进
+ print(textwrap.dedent(text))
+ahdjks
+  ajslkajska
+  akjldaaaaa
+  
+5.使用subsequent_indent,initial_indent
+ print(textwrap.fill(s,20,initial_indent="   ",subsequent_indent=".."))#填充和缩进同时进行
+   Look into my
+..eyes, look into my
+..eyes, the eyes,
+..the eyes, the
+..eyes, not around
+..the eyes, don't
+..look around the
+..eyes, look into my
+..eyes, you're
+..under.
