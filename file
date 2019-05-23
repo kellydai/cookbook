@@ -1,0 +1,23 @@
+变量名=open(file,mode)#打开
+mode：w-write(覆盖），r-read,a-append（追加）
+变量名.close()#关闭
+变量名.read()#读取  变量名.readline()#读取一行 变量名.readlines()#读取多行
+每次读取光标都会顺延往下，当到达最后一行的时候，读取结果为空，这时候可使用变量名.seek(0)回到起始位置
+注意：每次操作之后都要关闭文件再打开才能进行另一项操作
+变量名.write()#书写 变量名.writeline()#单行书写 writelines()#多行书写，\n
+ f=open("D://li.txt","a")
+>>> f.writelines('ajdkla/naljdlksa/n')
+>>> f.close()
+>>> f=open("D://li.txt","a")
+>>> f.writelines('ajdkla\naljdlksa\n')
+>>> f.close()
+>>> f=open("D://li.txt","r")
+>>> f.read()
+'/najka/naadaaaajkladajdkla/naljdlksa/najdkla\naljdlksa\n'
+>>> f.readline()
+''
+>>> f.seek(0)
+0
+>>> f.readline()
+'/najka/naadaaaajkladajdkla/naljdlksa/najdkla\n'
+
